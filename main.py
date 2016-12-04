@@ -1,5 +1,9 @@
 from flask import Flask
+
+from app_init import init
+
 app = Flask(__name__)
+init(app)
 
 @app.route("/")
 def hello():
