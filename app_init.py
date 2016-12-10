@@ -1,15 +1,38 @@
-from flask_sqlalchemy import SQLAlchemy
+import os
 
 from vitola_api.handlers import routes
+from vitola_api.resources import db
 
-def init_db(app):
-    app.config['SQLALCHEMY_DATABASE_URL'] = 'postgresql://localhost/vitola_dev'
-    db = SQLAlchemy(app)
-    db.init_app(app)
 
-def init_routes(app):
-    routes.init_routes(app)
+class Initializer():
+    def __init__(self, app, env_name):
+        self.app = app
+        self.env_name = env_name
+        self.routes_initialized = False
 
-def init(app):
-    init_db(app)
-    init_routes(app)
+    def init_config(self):
+        config_name = self.get_config_object_name(self.env_name)
+        self.app.config.from_object(config_name)
+        self.app.config['ENV'] = self.env_name
+
+    def init_routes(self, app):
+        if not self.routes_initialized:
+            self.routes_initialized = True
+            routes.init_routes(app)
+
+    def init_db(self, app):
+        db.init_app(self.app)
+        self.app.app_ctx_globals_class.database = db
+
+
+def get_config_object_name(self, env_name):
+    return 'config.{}.Config'.format(env_name)
+
+
+def init(app, env_name='dev'):
+    env_name = os.environ.get('CONFIG', env_name)
+    initializer = Initializer(app, env_name=env_name)
+
+
+    initializer.init_routes()
+    initializer.init_db()
