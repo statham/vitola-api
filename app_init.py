@@ -15,12 +15,12 @@ class Initializer():
         self.app.config.from_object(config_name)
         self.app.config['ENV'] = self.env_name
 
-    def init_routes(self, app):
+    def init_routes(self):
         if not self.routes_initialized:
             self.routes_initialized = True
-            routes.init_routes(app)
+            routes.init_routes(self.app)
 
-    def init_db(self, app):
+    def init_db(self):
         db.init_app(self.app)
         self.app.app_ctx_globals_class.database = db
 
