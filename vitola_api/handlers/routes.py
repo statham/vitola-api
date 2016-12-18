@@ -1,5 +1,4 @@
-from flask_restful import Api
-
+from vitola_api.handlers.api import VitolaApi
 from vitola_api.handlers.cigar_create_handler import CigarCreateHandler
 from vitola_api.handlers.cigar_handler import CigarHandler
 from vitola_api.handlers.humidor_create_handler import HumidorCreateHandler
@@ -10,7 +9,7 @@ def init_routes(app):
     def ping(*args, **kwargs):
         return "pong"
 
-    api = Api(app, prefix='/v1')
+    api = VitolaApi(app, prefix='/v1', catch_all_404s=True)
 
     api.add_resource(
         HumidorCreateHandler,
