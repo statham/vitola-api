@@ -2,6 +2,7 @@ from vitola_api.handlers.api import VitolaApi
 from vitola_api.handlers.cigar_create_handler import CigarCreateHandler
 from vitola_api.handlers.cigar_handler import CigarHandler
 from vitola_api.handlers.humidor_create_handler import HumidorCreateHandler
+from vitola_api.handlers.humidor_handler import HumidorHandler
 
 
 def init_routes(app):
@@ -15,6 +16,11 @@ def init_routes(app):
         HumidorCreateHandler,
         '/humidors',
         methods=['POST'])
+
+    api.add_resource(
+        HumidorHandler,
+        '/humidors/<string:humidor_uid>',
+        methods=['GET'])
 
     api.add_resource(
         CigarCreateHandler,

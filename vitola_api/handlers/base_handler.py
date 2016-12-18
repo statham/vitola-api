@@ -6,6 +6,7 @@ from flask import request
 from common import errors
 from common import messages
 from vitola_api.handlers.helpers.marshmallow_helper import raise_bad_request_for_schema_errors
+from vitola_api.validators.pagination_params_schema import EmptyParamsSchema
 
 
 class BaseHandler(flask_restful.Resource):
@@ -48,3 +49,14 @@ class BaseHandler(flask_restful.Resource):
     @staticmethod
     def get_user_id_from_header():
         return request.headers.get('X-Vitola-UserId')
+
+    @staticmethod
+    def get_query_params_or_400(SchemaClass=EmptyParamsSchema):
+        validated_query_params, errors = SchemaClass().load(request.args.to_dict())
+        if errors:
+            raise_bad_request_for_schema_errors(errors)
+        return validated_query_params
+
+    @staticmethod
+    def validate_query_params_or_400(SchemaClass=EmptyParamsSchema):
+        BaseHandler.get_query_params_or_400(SchemaClass)
