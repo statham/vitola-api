@@ -25,8 +25,8 @@ class Initializer():
         self.app.app_ctx_globals_class.database = db
 
 
-def get_config_object_name(self, env_name):
-    return 'config.{}.Config'.format(env_name)
+    def get_config_object_name(self, env_name):
+        return 'config.{}.Config'.format(env_name)
 
 
 def init(app, env_name='dev'):
@@ -34,5 +34,6 @@ def init(app, env_name='dev'):
     initializer = Initializer(app, env_name=env_name)
 
 
+    initializer.init_config()
     initializer.init_routes()
     initializer.init_db()

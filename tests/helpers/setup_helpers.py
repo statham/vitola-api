@@ -5,10 +5,12 @@ from vitola_api.actions.humidors import create_humidor
 from vitola_api.actions.users import create_user
 
 
-def setup_user(session, email=None):
+def setup_user(session, email=None, password=None):
     if not email:
         email = ''.join(random.choice(string.ascii_lowercase) for _ in range(5)) + '@test.com'
-    user = create_user(session=session, email=email, password='secure')
+    if not password:
+        password = 'secure'
+    user = create_user(session=session, email=email, password=password)
     session.commit()
     return user
 

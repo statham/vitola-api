@@ -7,6 +7,12 @@ no_fields_in_json_body = u"JSON body must contain at least one field."
 payload_not_json = u"Fields must be in JSON body."
 unsupported_fields = u"Unsupported fields are not allowed in request."
 error500 = u"Sorry, Vitola's system had an error. Please try again later."
+incorrect_login = u"The password you entered is incorrect."
+
+
+def incorrect_email_login(email):
+    return u"No user found with email ({}).".format(email)
+
 
 # Humidors
 humidor_name_required = u"Humidor name required to create a humidor."
