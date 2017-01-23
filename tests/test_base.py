@@ -4,6 +4,8 @@ from flask import Flask
 from flask_testing import TestCase
 
 from app_init import init
+from vitola_api.handlers.helpers.auth_helper import generate_access_token
+from vitola_api.handlers.helpers.auth_helper import generate_claims
 
 
 class BaseTestCase(TestCase):
@@ -29,8 +31,10 @@ class BaseTestCase(TestCase):
         self.db.drop_all()
         self.db.engine.dispose()
 
-    def get_json(self, url):
-        response = self.test_client.get(url, headers=self.test_headers)
+    def get_json(self, url, headers=None):
+        if not headers:
+            headers = self.test_headers
+        response = self.test_client.get(url, headers=headers)
         return json.loads(response.data), response.status_code
 
     def post(self, url, data, content_type=None):
@@ -47,8 +51,10 @@ class BaseTestCase(TestCase):
         return json.loads(data), status_code
 
     def login(self, user_id):
-        self.test_headers['X-Vitola-UserId'] = user_id
+        claims = generate_claims(session=self.session, user_id=user_id)
+        access_token_dict = generate_access_token(claims=claims)
+        self.test_headers['authorization'] = 'Bearer: {}'.format(access_token_dict['access_token'])
 
     def logout(self):
-        if 'X-Vitola-UserId' in self.test_headers:
-            del self.test_headers['X-Vitola-UserId']
+        if 'authorization' in self.test_headers:
+            del self.test_headers['authorization']

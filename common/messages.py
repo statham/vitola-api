@@ -38,3 +38,11 @@ def limit_zero_or_negative(input_value):
 def limit_too_large(input_value):
     limit_max = current_app.config.get('PAGINATION_LIMIT_MAX', constants.PAGINATION_LIMIT_MAX)
     return u"Pagination limit ({}) must be less than or equal to {}.".format(input_value, limit_max)
+
+
+# Authentication Tokens
+authentication_token_missing_or_not_provided = u"Missing or invalid authentication token provided."
+
+
+def unsupported_access_token_type(token_type):
+    return u"Token type ({}) is unsupported. Please retry with a supported token type.".format(token_type)

@@ -2,10 +2,12 @@ from common import messages
 from common.errors import NotFound
 from vitola_api.actions.humidors import get_humidor
 from vitola_api.handlers.base_handler import BaseHandler
+from vitola_api.handlers.helpers.auth_helper import require_auth
 from vitola_api.validators.humidor_schema import HumidorSchema
 
 
 class HumidorHandler(BaseHandler):
+    @require_auth
     def get(self, humidor_uid):
         self.validate_query_params_or_400()
 

@@ -2,6 +2,7 @@ import flask
 import flask_restful
 from flask import g
 from flask import request
+from python_jwt import verify_jwt
 
 from common import errors
 from common import messages
@@ -48,7 +49,11 @@ class BaseHandler(flask_restful.Resource):
 
     @staticmethod
     def get_user_id_from_header():
-        return request.headers.get('X-Vitola-UserId')
+        token = request.headers['authorization'].split()[1]
+        header, claims = verify_jwt(token,
+                                    flask.current_app.config.get('SECRET_KEY'),
+                                    [flask.current_app.config.get('ACCESS_TOKEN_SIGNING_ALGORITHM')])
+        return claims.get('user_id')
 
     @staticmethod
     def get_query_params_or_400(SchemaClass=EmptyParamsSchema):

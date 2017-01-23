@@ -1,5 +1,6 @@
 from vitola_api.actions.humidors import get_humidors
 from vitola_api.handlers.base_handler import BaseHandler
+from vitola_api.handlers.helpers.auth_helper import require_auth
 from vitola_api.handlers.helpers.pagination_helper import create_paginated_response
 from vitola_api.handlers.helpers.route_helper import create_humidor_list_route
 from vitola_api.validators.humidor_schema import HumidorSchema
@@ -7,6 +8,7 @@ from vitola_api.validators.pagination_params_schema import SkipLimitSchema
 
 
 class HumidorListHandler(BaseHandler):
+    @require_auth
     def get(self):
         validated_query_params = self.get_query_params_or_400(SchemaClass=SkipLimitSchema)
 

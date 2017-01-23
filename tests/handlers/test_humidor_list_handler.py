@@ -20,7 +20,7 @@ class HumidorListHandlerTest(BaseTestCase):
 
     def test_should_return_none_if_no_humidors(self):
         user = setup_user(session=self.session)
-        self.login(user)
+        self.login(user.uid)
         response, code = self.get_humidor_list()
         self.assertEqual(200, code)
         self.assertEqual([], response['data'])
