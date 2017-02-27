@@ -5,6 +5,7 @@ from vitola_api.handlers.humidor_create_handler import HumidorCreateHandler
 from vitola_api.handlers.humidor_handler import HumidorHandler
 from vitola_api.handlers.humidor_list_handler import HumidorListHandler
 from vitola_api.handlers.login_handler import LoginHandler
+from vitola_api.handlers.user_create_handler import UserCreateHandler
 
 
 def init_routes(app):
@@ -43,4 +44,9 @@ def init_routes(app):
     api.add_resource(
         LoginHandler,
         '/login',
+        methods=['POST'])
+
+    api.add_resource(
+        UserCreateHandler,
+        '/users',
         methods=['POST'])

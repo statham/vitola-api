@@ -22,6 +22,15 @@ def humidor_not_found(humidor_uid):
     return u"Humidor ({}) does not exist.".format(humidor_uid)
 
 
+# Users
+user_email_missing = u"Email required to create user."
+user_password_missing = u"Password required to create user."
+
+
+def user_already_exists(email):
+    return u"Account already exists for email ({}).".format(email)
+
+
 # Skip
 def skip_negative(input_value):
     return u"Pagination skip ({}) must be 0 or a positive integer.".format(input_value)
