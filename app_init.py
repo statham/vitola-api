@@ -1,5 +1,7 @@
 import os
 
+from flask_cors import CORS
+
 from vitola_api.handlers import routes
 from vitola_api.resources import db
 
@@ -24,6 +26,9 @@ class Initializer():
         db.init_app(self.app)
         self.app.app_ctx_globals_class.database = db
 
+    def init_cors(self):
+        CORS(self.app)
+
 
     def get_config_object_name(self, env_name):
         return 'config.{}.Config'.format(env_name)
@@ -35,5 +40,6 @@ def init(app, env_name='dev'):
 
 
     initializer.init_config()
+    initializer.init_cors()
     initializer.init_routes()
     initializer.init_db()
